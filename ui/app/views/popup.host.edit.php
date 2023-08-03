@@ -71,6 +71,7 @@ else {
 		[
 			'title' => _('Delete'),
 			'confirmation' => _('Delete selected host?'),
+		        'enabled' => CWebUser::getType() == USER_TYPE_SUPER_ADMIN,
 			'class' => 'btn-alt',
 			'keepOpen' => true,
 			'isSubmit' => false,
