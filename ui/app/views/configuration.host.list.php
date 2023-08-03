@@ -559,6 +559,7 @@ $form->addItem([
 		'host.massdelete' => [
 			'content' => (new CSimpleButton(_('Delete')))
 				->onClick('view.massDeleteHosts(this);')
+			        ->setEnabled(CWebUser::getType() == USER_TYPE_SUPER_ADMIN)
 				->addClass(ZBX_STYLE_BTN_ALT)
 				->addClass('js-no-chkbxrange')
 				->removeId()
