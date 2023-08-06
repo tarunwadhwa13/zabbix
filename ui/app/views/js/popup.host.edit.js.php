@@ -53,6 +53,12 @@ window.host_edit_popup = {
 		this.removePopupMessages();
 
 		const fields = host_edit.preprocessFormFields(getFormFields(this.form), false);
+
+		if !this.validateFormFields(false)) {
+                   return
+                }
+
+		form.parentNode.insertBefore(message_box, form);
 		const curl = new Curl(this.form.getAttribute('action'));
 
 		fetch(curl.getUrl(), {
@@ -92,6 +98,9 @@ window.host_edit_popup = {
 	clone() {
 		this.overlay.setLoading();
 		const parameters = host_edit.preprocessFormFields(getFormFields(this.form), true);
+                if !this.validateFormFields(true)) {
+                   return
+                }
 		delete parameters.sid;
 		parameters.clone = 1;
 
@@ -141,6 +150,25 @@ window.host_edit_popup = {
 			}
 		}
 	},
+
+        /**
+	 * Check field values for validation errors.
+	 *
+	 * @param {Object}  fields    Fields from host form.
+	 * @param {boolean} is_clone  Submit fields for clone instead of update.
+	 *
+	 * @throws {boolean} can render message box directly for errors
+	 */
+	validateFormFields(is_clone) {
+                fields = getFormFields(this.form)
+		if !(tags in fields && 'ServiceNowAppliction' in fields.tags) {
+                     title = "Field Validation Error"
+                     message = "Tag 'ServiceNowApplication' is required"
+                     const message_box = makeMessageBox('bad', messages, title)[0];
+
+		     this.form.parentNode.insertBefore(message_box, form);
+                }
+	}
 
 	ajaxExceptionHandler: (exception) => {
 		const form = host_edit_popup.form;
