@@ -296,20 +296,24 @@ foreach ($data['hosts'] as $host) {
 			}
 		}
 
-		$status_toggle_url->setArgument('status', HOST_STATUS_NOT_MONITORED);
-		$toggle_status_link = (new CLink(_('Enabled'), $status_toggle_url->getUrl()))
-			->addClass(ZBX_STYLE_LINK_ACTION)
-			->addClass(ZBX_STYLE_GREEN)
-			->addConfirmation(_('Disable host?'))
-			->addCsrfToken($csrf_token_massupdate);
+		CWebUser::getType() == USER_TYPE_SUPER_ADMIN ?
+			$status_toggle_url->setArgument('status', HOST_STATUS_NOT_MONITORED);
+			$toggle_status_link = (new CLink(_('Enabled'), $status_toggle_url->getUrl()))
+				->addClass(ZBX_STYLE_LINK_ACTION)
+				->addClass(ZBX_STYLE_GREEN)
+				->addConfirmation(_('Disable host?'))
+				->addCsrfToken($csrf_token_massupdate);
+		: null
 	}
 	else {
-		$status_toggle_url->setArgument('status', HOST_STATUS_MONITORED);
-		$toggle_status_link = (new CLink(_('Disabled'), $status_toggle_url->getUrl()))
-			->addClass(ZBX_STYLE_LINK_ACTION)
-			->addClass(ZBX_STYLE_RED)
-			->addConfirmation(_('Enable host?'))
-			->addCsrfToken($csrf_token_massupdate);
+		CWebUser::getType() == USER_TYPE_SUPER_ADMIN ?
+			$status_toggle_url->setArgument('status', HOST_STATUS_MONITORED);
+			$toggle_status_link = (new CLink(_('Disabled'), $status_toggle_url->getUrl()))
+				->addClass(ZBX_STYLE_LINK_ACTION)
+				->addClass(ZBX_STYLE_RED)
+				->addConfirmation(_('Enable host?'))
+				->addCsrfToken($csrf_token_massupdate);
+		: null
 	}
 
 	if ($maintenance_icon) {
@@ -559,6 +563,7 @@ $form->addItem([
 		'host.massdelete' => [
 			'content' => (new CSimpleButton(_('Delete')))
 				->onClick('view.massDeleteHosts(this);')
+			        ->setEnabled(CWebUser::getType() == USER_TYPE_SUPER_ADMIN)
 				->addClass(ZBX_STYLE_BTN_ALT)
 				->addClass('js-no-chkbxrange')
 				->removeId()

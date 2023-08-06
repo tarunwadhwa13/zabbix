@@ -35,6 +35,7 @@ $data += [
 		? [
 			(new CSubmit('add', _('Add')))
 				->removeAttribute('id'),
+	                        ->setEnabled(CWebUser::getType() == USER_TYPE_SUPER_ADMIN),
 			$cancel_button
 		]
 		: [
@@ -46,6 +47,8 @@ $data += [
 			(new CSimpleButton(_('Delete')))
 				->setAttribute('confirm', _('Delete selected host?'))
 				->setAttribute('data-hostid', $data['hostid'])
+	                        ->setAtrribute('data-test', CWebUser::getType())
+	                        ->setEnabled(CWebUser::getType() == USER_TYPE_SUPER_ADMIN)
 				->onClick('view.delete(this.dataset.hostid, this);')
 				->removeAttribute('id'),
 			$cancel_button

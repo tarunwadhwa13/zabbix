@@ -51,7 +51,8 @@ class CControllerActionDisable extends CController {
 			EVENT_SOURCE_DISCOVERY => $this->checkAccess(CRoleHelper::UI_CONFIGURATION_DISCOVERY_ACTIONS),
 			EVENT_SOURCE_AUTOREGISTRATION => $this->checkAccess(CRoleHelper::UI_CONFIGURATION_AUTOREGISTRATION_ACTIONS),
 			EVENT_SOURCE_INTERNAL => $this->checkAccess(CRoleHelper::UI_CONFIGURATION_INTERNAL_ACTIONS),
-			EVENT_SOURCE_SERVICE => $this->checkAccess(CRoleHelper::UI_CONFIGURATION_SERVICE_ACTIONS)
+			EVENT_SOURCE_SERVICE => $this->checkAccess(CRoleHelper::UI_CONFIGURATION_SERVICE_ACTIONS),
+			EVENT_SOURCE_HOSTS => $this->checkAccess(CRoleHelper::UI_CONFIGURATION_HOSTS)
 		]);
 
 		if (!$permissions) {
